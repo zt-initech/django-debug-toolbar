@@ -26,10 +26,12 @@
 	.description { margin-bottom: 30px; margin-top: 30px; font-style: italic;}
 	.download { float: right; }
 	pre { background: #000; color: #fff; padding: 15px;}
+	em { color:#999; }
 	hr { border: 0; width: 80%; border-bottom: 1px solid #aaa}
 	.footer { text-align:center; padding-top:30px; font-style: italic; }
 	div#headwrap { background-color:#ffc; border-bottom:1px solid #ddd; padding-top: 1em; }
 	div#contentwrap { background-color:#eee; }
+	p.caption { text-align:center; padding:0 1em; }
 </style>
 </head>
 
@@ -38,12 +40,6 @@
 <div id="headwrap">
 	<a href="http://github.com/robhudson/django-debug-toolbar"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
 	<div class="container">
-		<div class="download">
-			<a href="http://github.com/robhudson/django-debug-toolbar/zipball/master">
-			<img border="0" width="90" src="http://github.com/images/modules/download/zip.png"></a>
-			<a href="http://github.com/robhudson/django-debug-toolbar/tarball/master">
-			<img border="0" width="90" src="http://github.com/images/modules/download/tar.png"></a>
-		</div>
 		<h1>
 			<a href="http://github.com/robhudson/django-debug-toolbar">django-debug-toolbar</a> 
 			<span class="small">by <a href="http://github.com/robhudson">robhudson</a></span>
@@ -58,7 +54,13 @@
 				A configurable set of panels that display various debug information about
 				the current request/response.
 			</p>
-			<p><em>[screencast/demo here]</em></p>
+			<object width="700" height="394">
+				<param name="allowfullscreen" value="true">
+				<param name="allowscriptaccess" value="always">
+				<param name="movie" value="http://vimeo.com/moogaloop.swf?clip_id=6640136&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=0&amp;show_portrait=1&amp;color=DFFFB1&amp;fullscreen=1">
+				<embed src="http://vimeo.com/moogaloop.swf?clip_id=6640136&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=0&amp;show_portrait=1&amp;color=DFFFB1&amp;fullscreen=1" type="application/x-shockwave-flash" allowfullscreen="true" allowscriptaccess="always" width="700" height="394"></embed>
+			</object>
+			<p class="caption"><em>Screencast by <a href="http://pixane.com/">Idan Gazit</a></em></p>
 		</div>
 		<h2>License</h2>
 		<p>BSD</p>
@@ -86,9 +88,12 @@
 			Simon Willison,
 			Philip Zeyliger
 		</p>
-		<h2>Download</h2>
+		<h2>Download &amp; Install</h2>
 		<p>
-			You can download this project in either <a href="http://github.com/robhudson/django-debug-toolbar/zipball/master">zip</a> or <a href="http://github.com/robhudson/django-debug-toolbar/tarball/master">tar</a> formats.
+			Preferrably, use <a href="http://pypi.python.org/pypi/pip">Pip</a> and
+			<pre>$ pip install django-debug-toolbar</pre>
+			or
+			<pre>$ easy_install django-debug-toolbar</pre>
 		</p>
 		<p>
 			You can also clone the project with <a href="http://git-scm.com">Git</a> by running: <pre>$ git clone git://github.com/robhudson/django-debug-toolbar</pre>
