@@ -64,9 +64,6 @@ class ToolbarTestCase(LiveServerTestCase):
         return WebDriverWait(self.selenium, timeout=10)
 
 
-@skipIf(webdriver is None, "selenium isn't installed")
-@skipUnless(
-    'DJANGO_SELENIUM_TESTS' in os.environ, "selenium tests not requested")
 @override_settings(DEBUG=True, DEBUG_TOOLBAR_PANELS=PANELS_DEFAULTS + [
     'debug_toolbar.panels.profiling.ProfilingPanel',
 ])
