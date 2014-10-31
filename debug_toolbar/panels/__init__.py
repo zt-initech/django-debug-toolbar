@@ -6,6 +6,8 @@ from django.template.loader import render_to_string
 
 from debug_toolbar import settings as dt_settings
 from debug_toolbar.utils import get_name_from_obj
+from debug_toolbar.utils.function_wrapper import FunctionWrapper
+from debug_toolbar.utils.patch_context import PatchContext
 
 
 class Panel(object):
@@ -171,3 +173,33 @@ class DebugPanel(Panel):
     def __init__(self, *args, **kwargs):
         warnings.warn("DebugPanel was renamed to Panel.", DeprecationWarning)
         super(DebugPanel, self).__init__(*args, **kwargs)
+
+
+class CallRecordingPanel(Panel):
+    def __init__(self, *args, **kwargs):
+        super(CallRecordingPanel, self).__init__(*args, **kwargs)
+        self.calls = []
+        self._context = []
+
+        for context in self.get_context():
+            self.add_context(context)
+
+    def get_context(self):
+        """
+        >>> def get_context(self):
+        >>>     return [
+        >>>         PatchContext('foo.bar', FunctionWrapper(self.calls))
+        >>>     ]
+        """
+        raise NotImplementedError
+
+    def add_context(self, context):
+        self._context.append(context)
+
+    def enable_instrumentation(self):
+        for context in self._context:
+            context.patch()
+
+    def disable_instrumentation(self):
+        for context in self._context:
+            context.unpatch()
