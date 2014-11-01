@@ -10,10 +10,10 @@ from django.utils.translation import ugettext_lazy as _, ungettext_lazy as __
 
 from debug_toolbar.panels import Panel
 from debug_toolbar.panels.sql.forms import SQLSelectForm
-from debug_toolbar.utils import render_stacktrace
 from debug_toolbar.panels.sql.utils import reformat_sql, contrasting_color_generator
 from debug_toolbar.panels.sql.tracking import wrap_cursor, unwrap_cursor
 from debug_toolbar.panels.sql import views
+from debug_toolbar.utils.stacktraces import render_stacktrace
 
 
 def get_isolation_level_display(vendor, level):

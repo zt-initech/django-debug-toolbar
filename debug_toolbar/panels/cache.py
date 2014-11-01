@@ -16,8 +16,9 @@ except ImportError:
     from django.utils.datastructures import SortedDict as OrderedDict
 
 from debug_toolbar.panels import Panel
-from debug_toolbar.utils import (tidy_stacktrace, render_stacktrace,
-                                 get_template_info, get_stack)
+from debug_toolbar.utils.stacktraces import (tidy_stacktrace, render_stacktrace,
+                                             get_stack)
+from debug_toolbar.utils.templates import get_template_info
 from debug_toolbar import settings as dt_settings
 
 

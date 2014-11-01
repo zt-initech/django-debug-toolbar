@@ -6,7 +6,7 @@ from django.utils.encoding import force_text
 from django.utils.translation import ugettext_lazy as _
 
 from debug_toolbar.panels import Panel
-from debug_toolbar.utils import get_name_from_obj
+from debug_toolbar.utils.imports import get_name_from_obj
 
 
 class RequestPanel(Panel):

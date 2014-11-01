@@ -1,9 +1,5 @@
 from __future__ import absolute_import, unicode_literals
 
-try:
-    from importlib import import_module
-except ImportError:  # python 2.6
-    from django.utils.importlib import import_module
 import sys
 
 import django
@@ -15,6 +11,7 @@ except ImportError:
     from django.utils.datastructures import SortedDict as OrderedDict
 
 from debug_toolbar.panels import Panel
+from debug_toolbar.utils.imports import import_string
 
 
 class VersionsPanel(Panel):
@@ -55,7 +52,7 @@ class VersionsPanel(Panel):
     def gen_app_versions_1_6(self):
         for app in list(settings.INSTALLED_APPS):
             name = app.split('.')[-1].replace('_', ' ').capitalize()
-            app = import_module(app)
+            app = import_string(app)
             version = self.get_app_version(app)
             if version:
                 yield name, version

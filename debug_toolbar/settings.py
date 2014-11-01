@@ -1,13 +1,11 @@
 from __future__ import absolute_import, unicode_literals
 
-try:
-    from importlib import import_module
-except ImportError:  # python 2.6
-    from django.utils.importlib import import_module
 import warnings
 
 from django.conf import settings
 from django.utils import six
+
+from debug_toolbar.utils.imports import import_string
 
 
 # Always import this module as follows:
@@ -184,9 +182,7 @@ def check_middleware():
 def is_middleware_class(middleware_class, middleware_path):
     # This could be replaced by import_by_path in Django >= 1.6.
     try:
-        mod_path, cls_name = middleware_path.rsplit('.', 1)
-        mod = import_module(mod_path)
-        middleware_cls = getattr(mod, cls_name)
+        middleware_cls = import_string(middleware_path)
     except (AttributeError, ImportError, ValueError):
         return
     return issubclass(middleware_cls, middleware_class)
@@ -225,7 +221,7 @@ def patch_root_urlconf():
     try:
         reverse('djdt:render_panel')
     except NoReverseMatch:
-        urlconf_module = import_module(settings.ROOT_URLCONF)
+        urlconf_module = import_string(settings.ROOT_URLCONF)
         urlconf_module.urlpatterns = [
             url(r'^__debug__/', include(debug_toolbar.urls)),
         ] + urlconf_module.urlpatterns

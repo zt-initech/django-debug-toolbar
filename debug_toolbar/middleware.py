@@ -4,18 +4,16 @@ Debug Toolbar middleware
 
 from __future__ import absolute_import, unicode_literals
 
-try:
-    from importlib import import_module
-except ImportError:  # python 2.6
-    from django.utils.importlib import import_module
 import re
 import threading
 
 from django.conf import settings
+from django.utils import six
 from django.utils.encoding import force_text
 
-from debug_toolbar.toolbar import DebugToolbar
 from debug_toolbar import settings as dt_settings
+from debug_toolbar.toolbar import DebugToolbar
+from debug_toolbar.utils.imports import import_string
 
 _HTML_TYPES = ('text/html', 'application/xhtml+xml')
 # Handles python threading module bug - http://bugs.python.org/issue14308
@@ -44,10 +42,11 @@ class DebugToolbarMiddleware(object):
 
     def process_request(self, request):
         # Decide whether the toolbar is active for this request.
-        func_path = dt_settings.CONFIG['SHOW_TOOLBAR_CALLBACK']
-        # Replace this with import_by_path in Django >= 1.6.
-        mod_path, func_name = func_path.rsplit('.', 1)
-        show_toolbar = getattr(import_module(mod_path), func_name)
+        show_toolbar = dt_settings.CONFIG['SHOW_TOOLBAR_CALLBACK']
+
+        if isinstance(show_toolbar, six.string_types):
+            show_toolbar = import_string(func_path)
+
         if not show_toolbar(request):
             return
 

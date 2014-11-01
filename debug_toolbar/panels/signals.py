@@ -1,9 +1,5 @@
 from __future__ import absolute_import, unicode_literals
 
-try:
-    from importlib import import_module
-except ImportError:  # python 2.6
-    from django.utils.importlib import import_module
 
 from django.core.signals import (
     request_started, request_finished, got_request_exception)
@@ -19,6 +15,7 @@ except ImportError:
 from django.utils.translation import ugettext_lazy as _, ungettext
 
 from debug_toolbar.panels import Panel
+from debug_toolbar.utils.imports import import_string
 
 
 class SignalsPanel(Panel):
@@ -60,9 +57,7 @@ class SignalsPanel(Panel):
     def signals(self):
         signals = self.SIGNALS.copy()
         for signal in self.toolbar.config['EXTRA_SIGNALS']:
-            mod_path, signal_name = signal.rsplit('.', 1)
-            signals_mod = import_module(mod_path)
-            signals[signal_name] = getattr(signals_mod, signal_name)
+            signals[signal_name] = import_string(signal)
         return signals
 
     def process_response(self, request, response):

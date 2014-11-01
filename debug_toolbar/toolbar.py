@@ -4,10 +4,6 @@ The main DebugToolbar class that loads and renders the Toolbar.
 
 from __future__ import absolute_import, unicode_literals
 
-try:
-    from importlib import import_module
-except ImportError:  # python 2.6
-    from django.utils.importlib import import_module
 import uuid
 
 import django
@@ -22,6 +18,7 @@ except ImportError:
     from django.utils.datastructures import SortedDict as OrderedDict
 
 from debug_toolbar import settings as dt_settings
+from debug_toolbar.utils.imports import import_string
 
 
 class DebugToolbar(object):
@@ -125,23 +122,14 @@ class DebugToolbar(object):
             panel_classes = []
             for panel_path in dt_settings.PANELS:
                 # This logic could be replaced with import_by_path in Django 1.6.
+
                 try:
-                    panel_module, panel_classname = panel_path.rsplit('.', 1)
-                except ValueError:
-                    raise ImproperlyConfigured(
-                        "%s isn't a debug panel module" % panel_path)
-                try:
-                    mod = import_module(panel_module)
+                    panel_class = import_string(panel_path)
                 except ImportError as e:
                     raise ImproperlyConfigured(
                         'Error importing debug panel %s: "%s"' %
-                        (panel_module, e))
-                try:
-                    panel_class = getattr(mod, panel_classname)
-                except AttributeError:
-                    raise ImproperlyConfigured(
-                        'Toolbar Panel module "%s" does not define a "%s" class' %
-                        (panel_module, panel_classname))
+                        (panel_path, e))
+
                 panel_classes.append(panel_class)
             cls._panel_classes = panel_classes
         return cls._panel_classes

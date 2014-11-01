@@ -2,7 +2,7 @@ from __future__ import absolute_import, unicode_literals
 
 from django.utils.unittest import TestCase
 
-from debug_toolbar.utils import get_name_from_obj
+from debug_toolbar.utils.templates import get_name_from_obj
 
 
 class GetNameFromObjTestCase(TestCase):

@@ -1,12 +1,14 @@
 from __future__ import absolute_import, unicode_literals
 
+import operator
 import warnings
 
 from django.template.loader import render_to_string
+from django.utils.translation import ungettext
 
 from debug_toolbar import settings as dt_settings
-from debug_toolbar.utils import get_name_from_obj
 from debug_toolbar.utils.function_wrapper import FunctionWrapper
+from debug_toolbar.utils.imports import get_name_from_obj
 from debug_toolbar.utils.patch_context import PatchContext
 
 
@@ -203,3 +205,12 @@ class CallRecordingPanel(Panel):
     def disable_instrumentation(self):
         for context in self._context:
             context.unpatch()
+
+    @property
+    def nav_subtitle(self):
+        calls = len(self.calls)
+        duration = int(sum(((c['end'] - c['start']) for c in self.calls)) * 1000)
+
+        return ungettext('%(calls)d call in %(duration).2fms',
+                         '%(calls)d calls in %(duration).2fms',
+                         calls) % {'calls': calls, 'duration': duration}

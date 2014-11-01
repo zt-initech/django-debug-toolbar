@@ -7,8 +7,9 @@ from time import time
 from django.utils.encoding import force_text
 from django.utils import six
 
-from debug_toolbar.utils import tidy_stacktrace, get_template_info, get_stack
 from debug_toolbar import settings as dt_settings
+from debug_toolbar.utils.stacktraces import tidy_stacktrace, get_stack
+from debug_toolbar.utils.templates import get_template_info
 
 
 class SQLQueryTriggered(Exception):

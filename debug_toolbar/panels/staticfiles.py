@@ -19,7 +19,7 @@ except ImportError:
     from django.utils.datastructures import SortedDict as OrderedDict
 
 from debug_toolbar import panels
-from debug_toolbar.utils import ThreadCollector
+from debug_toolbar.utils.thread_collector import ThreadCollector
 
 
 @python_2_unicode_compatible
