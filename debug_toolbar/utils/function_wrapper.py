@@ -22,7 +22,6 @@ class FunctionWrapper(object):
                 arg_str = repr(args)
 
             data = {
-                'type': self.name or func.__name__,
                 'name': func.__name__,
                 'args': arg_str,
                 'kwargs': repr(kwargs),
