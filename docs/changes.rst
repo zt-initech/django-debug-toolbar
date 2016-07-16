@@ -8,6 +8,14 @@ This version is compatible with Django 1.10 and requires Django 1.8 or later.
 
 Support for Python 3.2 is dropped.
 
+Removed features
+~~~~~~~~~~~~~~~~
+
+* Support for automatic setup has been removed. Installation now requires
+  explicit setup. As a result, the ``DEBUG_TOOLBAR_PATCH_SETTINGS`` setting has
+  also been removed. See the :doc:`installation documentation <installation>`
+  for details.
+
 1.4
 ---
 
