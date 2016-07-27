@@ -12,6 +12,12 @@ Removed features
   also been removed. See the :doc:`installation documentation <installation>`
   for details.
 
+Bugfixes
+~~~~~~~~
+
+* The ``DebugToolbarMiddleware`` now also supports Django 1.10's ``MIDDLEWARE``
+  setting.
+
 1.5
 ---
 
