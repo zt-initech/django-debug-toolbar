@@ -9,6 +9,7 @@ from django.utils.encoding import force_text
 
 from debug_toolbar import settings as dt_settings
 from debug_toolbar.utils import get_stack, get_template_info, tidy_stacktrace
+from debug_toolbar.panels.sql.utils import MyJSONEncoder
 
 
 class SQLQueryTriggered(Exception):
@@ -108,7 +109,7 @@ class NormalCursorWrapper(object):
                 stacktrace = []
             _params = ''
             try:
-                _params = json.dumps(list(map(self._decode, params)))
+                _params = json.dumps(list(map(self._decode, params)), cls=MyJSONEncoder)
             except Exception:
                 pass  # object not JSON serializable
 

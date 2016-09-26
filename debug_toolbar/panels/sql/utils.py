@@ -1,8 +1,11 @@
 from __future__ import absolute_import, unicode_literals
 
+import cPickle as pickle
+import json
 import re
 
 import sqlparse
+from django.utils.encoding import force_text
 from django.utils.html import escape
 from sqlparse import tokens as T
 
@@ -58,3 +61,27 @@ def contrasting_color_generator():
                 so_far.append(rgb)
                 yield rgb_to_hex(rgb)
         n >>= 1
+
+
+class MyJSONEncoder(json.JSONEncoder):
+    def default(self, o):
+        try:
+            return super(MyJSONEncoder, self).default(o)
+        except TypeError as e:
+            try:
+                o = pickle.dumps(o)
+            except pickle.PicklingError:
+                raise e
+            else:
+                return {'djDebug:pickle': force_text(o)}
+
+
+def MyJSONDecoder_object_hook(a_dict):
+    value = a_dict.get('djDebug:pickle')
+    if value is not None and len(a_dict) == 1:
+        try:
+            return pickle.loads(value.encode('utf-8'))
+        except pickle.UnpicklingError:
+            return a_dict
+    else:
+        return a_dict

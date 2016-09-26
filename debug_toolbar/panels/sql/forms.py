@@ -10,7 +10,7 @@ from django.db import connections
 from django.utils.encoding import force_text
 from django.utils.functional import cached_property
 
-from debug_toolbar.panels.sql.utils import reformat_sql
+from debug_toolbar.panels.sql.utils import reformat_sql, MyJSONDecoder_object_hook
 
 
 class SQLSelectForm(forms.Form):
@@ -53,7 +53,7 @@ class SQLSelectForm(forms.Form):
         value = self.cleaned_data['params']
 
         try:
-            return json.loads(value)
+            return json.loads(value, object_hook=MyJSONDecoder_object_hook)
         except ValueError:
             raise ValidationError('Is not valid JSON')
 
